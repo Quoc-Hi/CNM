@@ -8,6 +8,25 @@ router.get('/', async(req, res) => {
     res.render('products', { products: rows });
 });
 
+//Search
+router.get('/search', async(req, res) => {
+    const keyword = req.query.keyword || '';
+
+    let sql = 'SELECT * FROM products';
+    let params = [];
+
+    if (keyword.trim() !== '') {
+        sql += ' WHERE name LIKE ?';
+        params.push(`%${keyword}%`);
+    }
+
+    const [rows] = await db.query(sql, params);
+    res.render('products', { products: rows });
+});
+
+
+
+
 // Edit product form
 router.get('/edit/:id', async(req, res) => {
     const { id } = req.params;

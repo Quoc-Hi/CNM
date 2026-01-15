@@ -1,56 +1,171 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Product List</title>
+    <title>Product Management</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+        
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-row {
+            margin-bottom: 10px;
+        }
+        
+        input {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn-add {
+            background: #28a745;
+            color: #fff;
+        }
+        
+        .btn-search {
+            background: #007bff;
+            color: #fff;
+        }
+        
+        .btn-delete {
+            background: #dc3545;
+            color: #fff;
+        }
+        
+        .btn-edit {
+            background: #ffc107;
+            color: #000;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th {
+            background: #007bff;
+            color: #fff;
+            padding: 10px;
+        }
+        
+        td {
+            padding: 8px;
+            text-align: center;
+        }
+        
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        
+        .action {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        hr {
+            margin: 25px 0;
+        }
+    </style>
 </head>
 
 <body>
-    <h2>Add Product</h2>
-    <form action="/add" method="post">
-        Name: <input name="name"><br> Price: <input name="price"><br> Quantity: <input name="quantity"><br>
-        <button>Add</button>
-    </form>
+    <div class="container">
+        <h2>➕ Add Product</h2>
+        <form action="/add" method="post">
+            <div class="form-row">
+                <input name="name" placeholder="Product name" required>
+            </div>
+            <div class="form-row">
+                <input name="price" placeholder="Price" required>
+            </div>
+            <div class="form-row">
+                <input name="quantity" placeholder="Quantity" required>
+            </div>
+            <button class="btn-add">Add Product</button>
+        </form>
 
-    <h2>Products</h2>
-    <table border="1" cellpadding="5">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Action</th>
-        </tr>
+        <hr>
 
-        <% products.forEach(p => { %>
+        <h2>📦 Product List</h2>
+        <form action="/search" method="GET" style="display:flex; gap:8px;">
+            <input name="keyword" placeholder="Search by name" value="<%= typeof keyword !== 'undefined' ? keyword : '' %>">
+            <button class="btn-search">Search</button>
+            <a href="/" style="padding:8px 12px; background:#6c757d; color:#fff; border-radius:4px; text-decoration:none;">
+                Reset
+            </a>
+        </form>
+
+
+        <table>
             <tr>
-                <td>
-                    <%= p.id %>
-                </td>
-                <td>
-                    <%= p.name %>
-                </td>
-                <td>
-                    <%= p.price %>
-                </td>
-                <td>
-                    <%= p.quantity %>
-                </td>
-                <td>
-                    <!-- Edit -->
-                    <a href="/edit/<%= p.id %>">Edit</a>
-
-                    <!-- Delete -->
-                    <form action="/delete/<%= p.id %>" method="POST" style="display:inline;">
-                        <button type="submit" onclick="return confirm('Delete this product?')">
-                            Delete
-                        </button>
-                    </form>
-                </td>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Action</th>
             </tr>
-            <% }) %>
-    </table>
+
+            <% products.forEach(p => { %>
+                <tr>
+                    <td>
+                        <%= p.id %>
+                    </td>
+                    <td>
+                        <%= p.name %>
+                    </td>
+                    <td>$
+                        <%= p.price %>
+                    </td>
+                    <td>
+                        <%= p.quantity %>
+                    </td>
+                    <td class="action">
+                        <a class="btn-edit" href="/edit/<%= p.id %>">Edit</a>
+
+                        <form action="/delete/<%= p.id %>" method="POST">
+                            <button class="btn-delete" onclick="return confirm('Delete this product?')">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+        </table>
+    </div>
 </body>
 
 </html>
