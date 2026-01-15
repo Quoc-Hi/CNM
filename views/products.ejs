@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+</head>
+
+<body>
+    <h2>Add Product</h2>
+    <form action="/add" method="post">
+        Name: <input name="name"><br> Price: <input name="price"><br> Quantity: <input name="quantity"><br>
+        <button>Add</button>
+    </form>
+
+    <h2>Products</h2>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Action</th>
+        </tr>
+
+        <% products.forEach(p => { %>
+            <tr>
+                <td>
+                    <%= p.id %>
+                </td>
+                <td>
+                    <%= p.name %>
+                </td>
+                <td>
+                    <%= p.price %>
+                </td>
+                <td>
+                    <%= p.quantity %>
+                </td>
+                <td>
+                    <!-- Edit -->
+                    <a href="/edit/<%= p.id %>">Edit</a>
+
+                    <!-- Delete -->
+                    <form action="/delete/<%= p.id %>" method="POST" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Delete this product?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            <% }) %>
+    </table>
+</body>
+
+</html>
