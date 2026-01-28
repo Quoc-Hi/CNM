@@ -1,0 +1,18 @@
+<%- include("../layout", { body: `
+  <form method="POST" action="/products/add" enctype="multipart/form-data">
+    <label>Name</label>
+    <input name="name" required />
+
+    <label>Price</label>
+    <input name="price" type="number" required />
+
+    <label>Quantity</label>
+    <input name="quantity" type="number" required />
+
+    <label>Image</label>
+    <input name="image" type="file" accept="image/*"/>
+
+    <button class="btn" type="submit">Create</button>
+    <a class="btn" href="/products">Cancel</a>
+  </form>
+`}) %>

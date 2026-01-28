@@ -1,0 +1,21 @@
+<%- include("../layout", { body: `
+  <form method="POST" action="/products/${product.id}?_method=PUT" enctype="multipart/form-data">
+    <label>Name</label>
+    <input name="name" value="${product.name || ""}" required />
+
+    <label>Price</label>
+    <input name="price" type="number" value="${product.price ?? ""}" required />
+
+    <label>Quantity</label>
+    <input name="quantity" type="number" value="${product.quantity ?? ""}" required />
+
+    <label>Current Image</label>
+    <div>${product.url_image ? `<img src="${product.url_image}" width="120"/>` : "No image"}</div>
+
+    <label>New Image (optional)</label>
+    <input name="image" type="file" accept="image/*"/>
+
+    <button class="btn" type="submit">Update</button>
+    <a class="btn" href="/products">Back</a>
+  </form>
+`}) %>
