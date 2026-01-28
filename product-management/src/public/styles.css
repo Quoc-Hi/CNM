@@ -1,0 +1,9 @@
+body { font-family: Arial, sans-serif; background:#f6f6f6; }
+.container { max-width: 900px; margin: 30px auto; background:#fff; padding: 18px; border-radius: 8px; }
+table { width:100%; border-collapse: collapse; }
+th, td { padding: 10px; border-bottom: 1px solid #ddd; vertical-align: middle; }
+label { display:block; margin-top: 10px; }
+input { width: 100%; padding: 8px; margin-top: 5px; }
+.btn { display:inline-block; padding: 8px 12px; background:#333; color:#fff; text-decoration:none; border:0; border-radius: 6px; cursor:pointer; }
+.btn.danger { background: #b30000; }
+img { border-radius: 6px; }
