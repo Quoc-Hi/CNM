@@ -1,0 +1,50 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-5">
+  <div class="row mb-4">
+    <div class="col">
+      <h2>Categories</h2>
+    </div>
+    <% if (user && user.role === 'admin') { %>
+      <div class="col text-end">
+        <a href="/categories/add-form" class="btn btn-primary">+ Add Category</a>
+      </div>
+    <% } %>
+  </div>
+
+  <% if (typeof categories !== 'undefined' && categories.length === 0) { %>
+    <div class="alert alert-info">No categories found.</div>
+  <% } else { %>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Created</th>
+            <% if (user && user.role === 'admin') { %>
+              <th>Actions</th>
+            <% } %>
+          </tr>
+        </thead>
+        <tbody>
+          <% categories.forEach(category => { %>
+            <tr>
+              <td><strong><a href="/categories/<%= category.categoryId %>"><%= category.name %></a></strong></td>
+              <td><%= category.description || '-' %></td>
+              <td><%= new Date(category.createdAt).toLocaleDateString() %></td>
+              <% if (user && user.role === 'admin') { %>
+                <td>
+                  <a href="/categories/<%= category.categoryId %>/edit-form" class="btn btn-sm btn-warning">Edit</a>
+                  <a href="/categories/<%= category.categoryId %>/delete" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure? Products will NOT be deleted.');">Delete</a>
+                </td>
+              <% } %>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>
