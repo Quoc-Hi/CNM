@@ -1,0 +1,109 @@
+<%- include('../partials/header') %>
+
+<div class="container-fluid mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Admin Dashboard</h2>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="row mt-4 mb-4">
+    <div class="col-md-3">
+      <div class="card text-white bg-primary">
+        <div class="card-body">
+          <h5 class="card-title">Total Products</h5>
+          <h2><%= stats.totalProducts %></h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-success">
+        <div class="card-body">
+          <h5 class="card-title">Categories</h5>
+          <h2><%= stats.totalCategories %></h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-warning">
+        <div class="card-body">
+          <h5 class="card-title">Low Stock</h5>
+          <h2><%= stats.lowStockProducts %></h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card text-white bg-danger">
+        <div class="card-body">
+          <h5 class="card-title">Out of Stock</h5>
+          <h2><%= stats.outOfStockProducts %></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Quick Actions</h5>
+        </div>
+        <div class="card-body">
+          <a href="/products/add-form" class="btn btn-primary">Add Product</a>
+          <a href="/categories/add-form" class="btn btn-success">Add Category</a>
+          <a href="/admin/inventory-report" class="btn btn-warning">Inventory Report</a>
+          <a href="/admin/logs" class="btn btn-info">View All Logs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Recent Activity (Audit Logs)</h5>
+        </div>
+        <div class="card-body">
+          <% if (recentLogs && recentLogs.length > 0) { %>
+            <div class="table-responsive">
+              <table class="table table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Product ID</th>
+                    <th>User</th>
+                    <th>Time</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% recentLogs.forEach(log => { %>
+                    <tr>
+                      <td><span class="badge bg-info"><%= log.action %></span></td>
+                      <td><code><%= log.productId %></code></td>
+                      <td><code><%= log.userId %></code></td>
+                      <td><%= new Date(log.time).toLocaleString() %></td>
+                      <td><%= log.details || '-' %></td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+            <a href="/admin/logs" class="btn btn-sm btn-secondary">View All Logs</a>
+          <% } else { %>
+            <p class="text-muted">No activity yet.</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

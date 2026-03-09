@@ -1,0 +1,77 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-5">
+  <div class="row mb-4">
+    <div class="col">
+      <h2>Products</h2>
+    </div>
+    <% if (user && user.role === 'admin') { %>
+      <div class="col text-end">
+        <a href="/products/add-form" class="btn btn-primary">+ Add Product</a>
+      </div>
+    <% } %>
+  </div>
+
+  <% if (typeof products !== 'undefined' && products.length === 0) { %>
+    <div class="alert alert-info">No products found. <% if (user && user.role === 'admin') { %>Start by <a href="/products/add-form">adding a product</a>.<% } %></div>
+  <% } else { %>
+    <div class="row">
+      <% products.forEach(product => { %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <% if (product.url_image) { %>
+              <img src="<%= product.url_image %>" class="card-img-top" alt="<%= product.name %>" style="height: 200px; object-fit: cover;">
+            <% } else { %>
+              <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                <span class="text-muted">No Image</span>
+              </div>
+            <% } %>
+            <div class="card-body">
+              <h5 class="card-title"><%= product.name %></h5>
+              <p class="card-text text-muted">$<%= product.price.toFixed(2) %></p>
+              <p>
+                <span class="badge bg-<%= product.inventoryStatusClass %>">
+                  <%= product.inventoryStatus %>
+                </span>
+              </p>
+              <p class="card-text small text-muted">Qty: <%= product.quantity %></p>
+            </div>
+            <div class="card-footer">
+              <a href="/products/<%= product.id %>" class="btn btn-sm btn-info">View</a>
+              <% if (user && user.role === 'admin') { %>
+                <a href="/products/<%= product.id %>/edit-form" class="btn btn-sm btn-warning">Edit</a>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+
+    <!-- Pagination -->
+    <% if (pagination.pages > 1) { %>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <% if (pagination.hasPrev) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= pagination.current - 1 %>">Previous</a>
+            </li>
+          <% } %>
+
+          <% pagination.pages.forEach(page => { %>
+            <li class="page-item <%= page === pagination.current ? 'active' : '' %>">
+              <a class="page-link" href="?page=<%= page %>"><%= page %></a>
+            </li>
+          <% }); %>
+
+          <% if (pagination.hasNext) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= pagination.current + 1 %>">Next</a>
+            </li>
+          <% } %>
+        </ul>
+      </nav>
+    <% } %>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

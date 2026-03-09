@@ -1,0 +1,42 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h4 class="mb-0">Register</h4>
+        </div>
+        <div class="card-body">
+          <% if (typeof error !== 'undefined') { %>
+            <div class="alert alert-danger"><%= error %></div>
+          <% } %>
+
+          <form method="POST" action="/register">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="passwordConfirm" class="form-label">Confirm Password</label>
+              <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" required>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Register</button>
+          </form>
+
+          <hr>
+          <p class="text-center">Already have account? <a href="/login">Login here</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,151 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-5">
+  <h2>Inventory Report</h2>
+
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <h5 class="card-title">In Stock</h5>
+          <h2><%= summary.inStockCount %></h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-warning text-white">
+        <div class="card-body">
+          <h5 class="card-title">Low Stock</h5>
+          <h2><%= summary.lowStockCount %></h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-danger text-white">
+        <div class="card-body">
+          <h5 class="card-title">Out of Stock</h5>
+          <h2><%= summary.outOfStockCount %></h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-info text-white">
+        <div class="card-body">
+          <h5 class="card-title">Total</h5>
+          <h2><%= summary.total %></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- In Stock Products -->
+  <div class="row">
+    <div class="col-md-12 mb-4">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">In Stock (<%= summary.inStockCount %>)</h5>
+        </div>
+        <div class="card-body">
+          <% if (inventory.inStock && inventory.inStock.length > 0) { %>
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% inventory.inStock.forEach(p => { %>
+                    <tr>
+                      <td><a href="/products/<%= p.id %>"><%= p.name %></a></td>
+                      <td>$<%= p.price.toFixed(2) %></td>
+                      <td><strong><%= p.quantity %></strong> units</td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          <% } else { %>
+            <p class="text-muted">No products in stock.</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Low Stock Products -->
+  <div class="row">
+    <div class="col-md-12 mb-4">
+      <div class="card">
+        <div class="card-header bg-warning text-white">
+          <h5 class="mb-0">Low Stock (<%= summary.lowStockCount %>) - Qty &lt; 5</h5>
+        </div>
+        <div class="card-body">
+          <% if (inventory.lowStock && inventory.lowStock.length > 0) { %>
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% inventory.lowStock.forEach(p => { %>
+                    <tr>
+                      <td><a href="/products/<%= p.id %>"><%= p.name %></a></td>
+                      <td>$<%= p.price.toFixed(2) %></td>
+                      <td><strong><%= p.quantity %></strong> units</td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          <% } else { %>
+            <p class="text-muted">No low stock products.</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Out of Stock Products -->
+  <div class="row">
+    <div class="col-md-12 mb-4">
+      <div class="card">
+        <div class="card-header bg-danger text-white">
+          <h5 class="mb-0">Out of Stock (<%= summary.outOfStockCount %>)</h5>
+        </div>
+        <div class="card-body">
+          <% if (inventory.outOfStock && inventory.outOfStock.length > 0) { %>
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% inventory.outOfStock.forEach(p => { %>
+                    <tr>
+                      <td><a href="/products/<%= p.id %>"><%= p.name %></a></td>
+                      <td>$<%= p.price.toFixed(2) %></td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          <% } else { %>
+            <p class="text-muted">No out of stock products.</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
