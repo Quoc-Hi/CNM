@@ -1,0 +1,43 @@
+<%- include('header') %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <h1>Product Showcase</h1>
+  <div style="display: flex; gap: 1rem; align-items: center;">
+    <form action="/" method="GET" style="display: flex; gap: 0.5rem;">
+      <input name="search" class="form-control" placeholder="Search products..." value="<%= search %>" style="width: 250px; margin-bottom: 0;">
+      <button type="submit" class="btn btn-primary">Search</button>
+      <% if (search) { %>
+        <a href="/" class="btn" style="background: #F1F5F9; color: var(--text-muted); padding: 0.625rem 1rem;">Clear</a>
+      <% } %>
+    </form>
+    <a href="/create" class="btn btn-primary">Add New Product</a>
+  </div>
+</div>
+
+<div class="product-grid">
+  <% if (products && products.length > 0) { %>
+    <% products.forEach(p => { %>
+      <div class="product-card">
+        <img src="<%= p.url_image %>" alt="<%= p.name %>" class="product-img">
+        <div class="product-info">
+          <div class="product-name"><%= p.name %></div>
+          <div class="product-price">$<%= p.price.toLocaleString() %></div>
+          <div class="product-stock">Stock: <%= p.unit_in_stock %> units</div>
+        </div>
+        <div class="product-actions">
+          <a href="/detail/<%= p.id %>" class="btn" style="background: #F1F5F9; color: var(--text-main); flex: 1; text-align: center;">Details</a>
+          <a href="/edit/<%= p.id %>" class="btn" style="background: #EEF2FF; color: var(--primary); flex: 1; text-align: center;">Edit</a>
+          <a href="/delete/<%= p.id %>" class="btn" onclick="return confirm('Are you sure?')" style="background: #FEF2F2; color: #EF4444; width: 45px; text-align: center; padding: 0.75rem 0;">&times;</a>
+        </div>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <div style="grid-column: 1/-1; text-align: center; padding: 5rem; color: var(--text-muted); background: var(--card-bg); border-radius: 1rem;">
+      <p>No products found yet. Start by adding one!</p>
+    </div>
+  <% } %>
+</div>
+
+</div>
+</body>
+</html>

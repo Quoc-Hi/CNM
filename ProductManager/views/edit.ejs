@@ -1,0 +1,40 @@
+<%- include('header') %>
+
+<div class="glass-card">
+  <h1>Refine Product</h1>
+  <form action="/edit/<%= product.id %>" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label class="form-label">Product Name</label>
+      <input name="name" class="form-control" value="<%= product.name %>" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Price ($)</label>
+      <input type="number" name="price" class="form-control" value="<%= product.price %>" step="0.01" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Units in Stock</label>
+      <input type="number" name="unit_in_stock" class="form-control" value="<%= product.unit_in_stock %>" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Current Presentation</label>
+      <div style="display: flex; align-items: end; gap: 1.5rem;">
+        <img src="<%= product.url_image %>" width="120" style="border-radius: 0.75rem; border: 1px solid var(--border-color);">
+        <div style="flex: 1;">
+          <label class="form-label" style="font-size: 0.75rem;">Upload new imagery to replace</label>
+          <input type="file" name="image" class="form-control">
+        </div>
+      </div>
+      <input type="hidden" name="oldImage" value="<%= product.url_image %>">
+    </div>
+
+    <div style="display: flex; gap: 1rem; margin-top: 3rem;">
+      <button type="submit" class="btn btn-primary" style="flex: 2;">Save Enhancements</button>
+      <a href="/detail/<%= product.id %>" class="btn" style="flex: 1; text-align: center; background: #F8FAFC; color: var(--text-muted); border: 1px solid var(--border-color);">Discard Changes</a>
+    </div>
+  </form>
+</div>
+
+</div>
+</body>
+</html>
