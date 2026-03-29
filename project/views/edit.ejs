@@ -1,0 +1,30 @@
+<h2>Sửa sự kiện</h2>
+<% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+  <div style="color: red;">
+    <ul>
+      <% errors.forEach(function(err) { %>
+        <li><%= err %></li>
+      <% }); %>
+    </ul>
+  </div>
+<% } %>
+<form action="/edit/<%= ticket.ticketID %>" method="POST" enctype="multipart/form-data">
+  <input type="text" name="ticketID" placeholder="Mã vé" value="<%= ticket.ticketID %>" disabled>
+  <input type="text" name="eventName" placeholder="Tên sự kiện" value="<%= ticket.eventName %>">
+  <input type="number" name="price" placeholder="Giá" value="<%= ticket.price %>">
+  <input type="number" name="quantity" placeholder="Số lượng" value="<%= ticket.quantity %>">
+  
+  <p>Ảnh hiện tại:</p>
+  <% if (ticket.imageUrl) { %>
+    <img src="<%= ticket.imageUrl %>" width="100"><br>
+  <% } %>
+  <input type="hidden" name="existingImage" value="<%= ticket.imageUrl || '' %>">
+  
+  <p>Thay đổi ảnh (tùy chọn):</p>
+  <input type="file" name="image">
+  
+  <br><br>
+  <button type="submit">Cập nhật</button>
+</form>
+<br>
+<a href="/">Quay lại</a>

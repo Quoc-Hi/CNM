@@ -1,0 +1,32 @@
+<%- include('header') %>
+
+<div class="glass-card" style="max-width: 800px; display: flex; gap: 3rem; flex-wrap: wrap; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
+    <img src="<%= product.url_image %>" alt="<%= product.name %>" style="width: 100%; border-radius: 1rem; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color);">
+  </div>
+  
+  <div style="flex: 1.5; min-width: 300px;">
+    <h1 style="margin-bottom: 1rem;"><%= product.name %></h1>
+    <div style="font-size: 2rem; color: var(--accent); font-weight: 700; margin-bottom: 1.5rem;">$<%= product.price.toLocaleString() %></div>
+    
+    <div style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--border-color); margin-bottom: 2rem;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+        <span style="color: var(--text-muted);">Availability:</span>
+        <span style="color: #4ADE80; font-weight: 600;">In Stock</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span style="color: var(--text-muted);">Inventory:</span>
+        <span style="color: var(--text-main);"><%= product.unit_in_stock %> units</span>
+      </div>
+    </div>
+    
+    <div style="display: flex; gap: 1rem;">
+      <a href="/edit/<%= product.id %>" class="btn btn-primary" style="flex: 1; text-align: center;">Update Product</a>
+      <a href="/" class="btn" style="flex: 1; text-align: center; background: #F8FAFC; color: var(--text-muted); border: 1px solid var(--border-color);">Return to List</a>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

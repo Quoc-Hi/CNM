@@ -1,0 +1,29 @@
+<%- include("../layout", { body: `
+  <div style="margin-bottom:12px;">
+    <a class="btn" href="/products/add">+ Add Product</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th><th>Name</th><th>Price</th><th>Quantity</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${products.map(p => `
+        <tr>
+          <td>${p.url_image ? `<img src="${p.url_image}" width="70"/>` : ""}</td>
+          <td>${p.name || ""}</td>
+          <td>${p.price ?? ""}</td>
+          <td>${p.quantity ?? ""}</td>
+          <td>
+            <a class="btn" href="/products/${p.id}/edit">Edit</a>
+            <form method="POST" action="/products/${p.id}?_method=DELETE" style="display:inline;">
+              <button class="btn danger" type="submit" onclick="return confirm('Delete?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+      `).join("")}
+    </tbody>
+  </table>
+`}) %>

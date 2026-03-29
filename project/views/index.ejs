@@ -1,0 +1,42 @@
+<form action="/" method="GET">
+  <input type="text" name="search" placeholder="Tìm kiếm tên sự kiện..." value="<%= typeof keyword !== 'undefined' ? keyword : '' %>">
+  <button type="submit">Tìm</button>
+  <a href="/">Xóa tìm kiếm</a>
+</form>
+
+<br>
+<a href="/add">Thêm mới</a>
+<br><br>
+
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Total Value</th>
+    <th>Image</th>
+    <th>Action</th>
+  </tr>
+
+  <% tickets.forEach(t => { %>
+    <tr>
+      <td><%= t.ticketID %></td>
+      <td><%= t.eventName %></td>
+      <td><%= t.price %></td>
+      <td><%= t.quantity %></td>
+      <td><%= t.ticketTotalValue %></td>
+      <td>
+        <% if (t.imageUrl) { %>
+          <img src="<%= t.imageUrl %>" width="80">
+        <% } %>
+      </td>
+      <td>
+        <a href="/edit/<%= t.ticketID %>">Sửa</a> |
+        <a href="/delete/<%= t.ticketID %>">Xóa</a>
+      </td>
+    </tr>
+  <% }) %>
+</table>
+
+<h3>Tổng giá trị kho vé: <%= typeof totalInventoryValue !== 'undefined' ? totalInventoryValue : 0 %></h3>

@@ -1,0 +1,109 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-5">
+  <h2>Search & Filter Products</h2>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <form method="GET" action="/products/search" class="row g-3">
+        <div class="col-md-3">
+          <label for="name" class="form-label">Product Name</label>
+          <input type="text" class="form-control" id="name" name="name" value="<%= filters.name || '' %>">
+        </div>
+
+        <div class="col-md-3">
+          <label for="categoryId" class="form-label">Category</label>
+          <select class="form-select" id="categoryId" name="categoryId">
+            <option value="">All Categories</option>
+            <% categories.forEach(cat => { %>
+              <option value="<%= cat.categoryId %>" <%= filters.categoryId === cat.categoryId ? 'selected' : '' %>>
+                <%= cat.name %>
+              </option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label for="minPrice" class="form-label">Min Price</label>
+          <input type="number" class="form-control" id="minPrice" name="minPrice" min="0" step="0.01" value="<%= filters.minPrice || '' %>">
+        </div>
+
+        <div class="col-md-2">
+          <label for="maxPrice" class="form-label">Max Price</label>
+          <input type="number" class="form-control" id="maxPrice" name="maxPrice" min="0" step="0.01" value="<%= filters.maxPrice || '' %>">
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+          <button type="submit" class="btn btn-primary w-100">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <% if (scannedCount) { %>
+    <div class="alert alert-info">
+      <strong>ℹ️ DynamoDB Scan Info:</strong> Scanned <%= scannedCount %> items
+      <br>
+      <small>Note: Scan reads all items and filters afterward (expensive). For better performance, use Query with Global Secondary Indexes.</small>
+    </div>
+  <% } %>
+
+  <% if (products.length === 0) { %>
+    <div class="alert alert-warning">No products found matching your criteria.</div>
+  <% } else { %>
+    <div class="row">
+      <% products.forEach(product => { %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <% if (product.url_image) { %>
+              <img src="<%= product.url_image %>" class="card-img-top" alt="<%= product.name %>" style="height: 200px; object-fit: cover;">
+            <% } else { %>
+              <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                <span class="text-muted">No Image</span>
+              </div>
+            <% } %>
+            <div class="card-body">
+              <h5 class="card-title"><%= product.name %></h5>
+              <p class="card-text text-primary">$<%= product.price.toFixed(2) %></p>
+              <p>
+                <span class="badge bg-<%= product.inventoryStatusClass %>">
+                  <%= product.inventoryStatus %>
+                </span>
+              </p>
+            </div>
+            <div class="card-footer">
+              <a href="/products/<%= product.id %>" class="btn btn-sm btn-info">View</a>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+
+    <!-- Pagination -->
+    <% if (pagination.pages > 1) { %>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <% if (pagination.hasPrev) { %>
+            <li class="page-item">
+              <a class="page-link" href="?name=<%= filters.name || '' %>&categoryId=<%= filters.categoryId || '' %>&page=<%= pagination.current - 1 %>">Previous</a>
+            </li>
+          <% } %>
+
+          <% pagination.pages.forEach(page => { %>
+            <li class="page-item <%= page === pagination.current ? 'active' : '' %>">
+              <a class="page-link" href="?name=<%= filters.name || '' %>&categoryId=<%= filters.categoryId || '' %>&page=<%= page %>"><%= page %></a>
+            </li>
+          <% }); %>
+
+          <% if (pagination.hasNext) { %>
+            <li class="page-item">
+              <a class="page-link" href="?name=<%= filters.name || '' %>&categoryId=<%= filters.categoryId || '' %>&page=<%= pagination.current + 1 %>">Next</a>
+            </li>
+          <% } %>
+        </ul>
+      </nav>
+    <% } %>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

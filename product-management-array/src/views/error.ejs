@@ -1,0 +1,11 @@
+<%- include('partials/header') %>
+
+<div class="container">
+  <div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">Error <%= typeof status !== 'undefined' ? status : '500' %></h4>
+    <p><%= typeof error !== 'undefined' ? error : 'An error occurred' %></p>
+  </div>
+  <a href="/" class="btn btn-secondary">← Back Home</a>
+</div>
+
+<%- include('partials/footer') %>

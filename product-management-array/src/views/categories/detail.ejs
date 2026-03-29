@@ -1,0 +1,48 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-5">
+  <h2><%= category.name %></h2>
+  <p class="text-muted"><%= category.description || 'No description' %></p>
+
+  <hr>
+
+  <h4>Products in this category</h4>
+
+  <% if (products && products.length > 0) { %>
+    <div class="row">
+      <% products.forEach(product => { %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <% if (product.url_image) { %>
+              <img src="<%= product.url_image %>" class="card-img-top" alt="<%= product.name %>" style="height: 200px; object-fit: cover;">
+            <% } else { %>
+              <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                <span class="text-muted">No Image</span>
+              </div>
+            <% } %>
+            <div class="card-body">
+              <h5 class="card-title"><%= product.name %></h5>
+              <p class="card-text text-primary">$<%= product.price.toFixed(2) %></p>
+              <p>
+                <span class="badge bg-<%= product.inventoryStatusClass %>">
+                  <%= product.inventoryStatus %>
+                </span>
+              </p>
+            </div>
+            <div class="card-footer">
+              <a href="/products/<%= product.id %>" class="btn btn-sm btn-info">View</a>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <div class="alert alert-info">No products in this category yet.</div>
+  <% } %>
+
+  <div class="mt-4">
+    <a href="/categories" class="btn btn-secondary">← Back to Categories</a>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
